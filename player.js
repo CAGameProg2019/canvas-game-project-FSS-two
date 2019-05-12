@@ -1,10 +1,12 @@
 class Player extends Food{
 
-    constructor(x, y, color, name, dx, dy) {
+    constructor(x, y, color, name, dx, dy, score) {
         super(x,y,color);
         this.name = name;
         this.dx = dx;
         this.dy = dy;
+        this.score = score;
+
         let _keyPressed = {
             w: false,
             a: false,
@@ -44,16 +46,12 @@ class Player extends Food{
         this._keyPressed = _keyPressed;
     }
     draw(c){
-        c.lineWidth = this.radius * .075;
-        c.strokeStyle = this.stroke;
         super.draw(c);
         c.stroke();
         c.fillStyle = '#ffffff';
         c.textAlign = 'center';
         c.textBaseline = 'middle';
-        c.lineWidth = 5;
-        let fontSize =  Math.round(this.radius*.50)
-        c.font = fontSize + "px Gotham Narrow";
+        c.font = "10px Gotham Narrow";
         c.strokeStyle= '#000000';
         c.strokeText(this.name, this.x, this.y);
         c.fillText(this.name, this.x, this.y);
@@ -61,20 +59,28 @@ class Player extends Food{
 
     update() {
         if (this._keyPressed.w) {
-            this.dy -= 0.1;
+            this.dy = -1;
+            this.dx = 0;
         }
         if (this._keyPressed.a) {
-            this.dx -= 0.1;
+            this.dx = -1;
+            this.dy = 0;
         }
         if (this._keyPressed.s) {
-            this.dy += 0.1;
+            this.dy = 1;
+            this.dx = 0;
         }
         if (this._keyPressed.d) {
-            this.dx += 0.1;
+            this.dx = 1;
+            this.dy = 0;
         }
         this.x += this.dx;
         this.y += this.dy;
-        this.print();
+        c.strokeStyle= '#000000';
+        c.fillStyle = '#ffffff';
+        c.font = "100px Gotham Narrow";
+        c.strokeText(this.score, 1300, 50);
+        c.fillText(this.score,1300,50);
     }
 
 }

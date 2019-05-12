@@ -12,21 +12,15 @@ class Food extends Vector{
 
     intersects(food){
         let distance = this.dist(food);
-        if(distance <= this.radius + food.radius){
+        if(distance <= 30){
+//30 = half the length of player + half the food length
             return true;
         }
         return false;
     }
 
-    get mass(){
-        return Math.PI * this.radius * this.radius;
-    }
-    set mass(newmass){
-        this.radius = Math.sqrt(newmass / Math.PI);
-    }
-
-    addMass(m){
-        this.mass += m;
+    addPoints(s){
+        this.score += s;
     }
 }
 Object.assign(Food, Vector);

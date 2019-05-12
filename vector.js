@@ -10,7 +10,7 @@ class Vector {
         this.y += vec.y;
         return this;
     }
-//functions to write for homework
+
     subVector(vec){//function that takes a vector and subtracts another vector from it
         this.x -= vec.x;
         this.y -= vec.y;

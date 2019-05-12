@@ -4,9 +4,8 @@ let c = canvas.getContext('2d');
 canvas.width = window.innerWidth - 5;
 canvas.height = window.innerHeight - 5;
 
-const FOOD_COUNT = 100;
-
 let foods = [];
+let capturedFoods = [];
 let player;
 
 let colors = [
@@ -15,52 +14,54 @@ let colors = [
     'red',
     'purple',
     'teal',
-    'grey'
 ];
 
-let pos = [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10
-];
 function randomColor() {
     let index = Math.floor(Math.random() * colors.length);
     return colors[index];
 }
 
 function generateFood(){
-    let index = Math.floor(Math.random() * pos.length);
-    let x = pos[index] * 30;
-    let y = pos[index] * 30;
-    let color = randomColor();
-    foods.push(new Food(x, y, color));
+    let x;
+    let y;
+    for(let i = 0; i < 50; i++){
+        for(let j = 0; j < 26; j++){
+            x = i * 31;
+            y = j * 31;
+            foods.push(new Food(x, y, 'grey'));
+        }
+
+    }
 }
 
 function init() {
     let name = prompt("Enter a name!");
+    let score = 0;
     let color = randomColor();
-    player = new Player(0,0,color,name,0,0);
-
-    for(var i = 0; i < FOOD_COUNT; i++){
-        generateFood();
-    }
+    player = new Player(0,0,color,name,0,0,score);
+    generateFood();
     update();
 }
 
 function update() {
-
+    c.fillStyle = 'Black';
+    c.fillRect(0,0,canvas.width,canvas.height);
+    for(let i = 0; i< foods.length; i++){
+        let captured = player.intersects(foods[i]);
+        if(captured){
+            foods[i].color = player.color;
+            player.score++;
+            //foods[i].draw(c); this makes a neat game design
+        }
+        foods[i].draw(c);
+    }
+    player.update();
+    player.draw(c);
     requestAnimationFrame(update);
 }
 
-window.addEventListener('load', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+window.addEventListener('load', function(event) {
+    // canvas.width = window.innerWidth;
+    // canvas.height = window.innerHeight;
     init();
 });
